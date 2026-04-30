@@ -42,7 +42,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         <CommandEmpty>No results found.</CommandEmpty>
 
         <CommandGroup heading="Navigation">
-          <CommandItem onSelect={() => runCommand(() => router.push("/"))}>
+          <CommandItem onSelect={() => runCommand(() => router.push("/dashboard"))}>
             <LayoutDashboard className="mr-2 h-4 w-4" />
             Dashboard
           </CommandItem>

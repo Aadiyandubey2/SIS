@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
   Student,
@@ -16,14 +19,9 @@ import {
   Users,
   Clock,
   ChartLineUp,
-} from "@phosphor-icons/react/dist/ssr";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "SIS — Student Information System",
-  description:
-    "Enterprise-grade Student Information System for managing students, courses, attendance, exams, and fees. Built for modern schools.",
-};
+  List,
+  X,
+} from "@phosphor-icons/react";
 
 const features = [
   {
@@ -92,9 +90,109 @@ const stats = [
   { value: "₹12.4L", label: "Revenue Tracked", icon: ChartLineUp },
 ];
 
+const navLinks = [
+  { href: "#features", label: "Features" },
+  { href: "#platform", label: "Platform" },
+  { href: "#why-sis", label: "Why SIS" },
+];
+
 export default function LandingPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#fafafa]">
+      {/* ─── Animated mesh gradient (sarvam sun-like effect) ─────── */}
+      <style jsx>{`
+        @keyframes meshMove {
+          0%,
+          100% {
+            transform: translate(0%, 0%) scale(1);
+          }
+          25% {
+            transform: translate(5%, -5%) scale(1.05);
+          }
+          50% {
+            transform: translate(-3%, 3%) scale(0.97);
+          }
+          75% {
+            transform: translate(4%, 2%) scale(1.03);
+          }
+        }
+        @keyframes meshMove2 {
+          0%,
+          100% {
+            transform: translate(0%, 0%) scale(1);
+          }
+          25% {
+            transform: translate(-6%, 4%) scale(1.08);
+          }
+          50% {
+            transform: translate(4%, -3%) scale(0.95);
+          }
+          75% {
+            transform: translate(-2%, -5%) scale(1.02);
+          }
+        }
+        @keyframes meshMove3 {
+          0%,
+          100% {
+            transform: translate(0%, 0%) scale(1.02);
+          }
+          33% {
+            transform: translate(6%, 4%) scale(0.96);
+          }
+          66% {
+            transform: translate(-4%, -2%) scale(1.06);
+          }
+        }
+        @keyframes meshPulse {
+          0%,
+          100% {
+            opacity: 0.4;
+          }
+          50% {
+            opacity: 0.7;
+          }
+        }
+        .mesh-orb-1 {
+          animation: meshMove 12s ease-in-out infinite, meshPulse 8s ease-in-out infinite;
+        }
+        .mesh-orb-2 {
+          animation: meshMove2 15s ease-in-out infinite, meshPulse 10s ease-in-out infinite 2s;
+        }
+        .mesh-orb-3 {
+          animation: meshMove3 18s ease-in-out infinite, meshPulse 12s ease-in-out infinite 4s;
+        }
+        .mesh-orb-4 {
+          animation: meshMove 20s ease-in-out infinite reverse, meshPulse 14s ease-in-out infinite 1s;
+        }
+        @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-up {
+          animation: fadeUp 0.8s ease-out forwards;
+        }
+        .animate-fade-up-delay-1 {
+          animation: fadeUp 0.8s ease-out 0.15s forwards;
+          opacity: 0;
+        }
+        .animate-fade-up-delay-2 {
+          animation: fadeUp 0.8s ease-out 0.3s forwards;
+          opacity: 0;
+        }
+        .animate-fade-up-delay-3 {
+          animation: fadeUp 0.8s ease-out 0.45s forwards;
+          opacity: 0;
+        }
+      `}</style>
+
       {/* ─── Navbar ───────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 border-b border-black/[0.04] bg-[#fafafa]/80 backdrop-blur-xl">
         <div className="mx-auto flex h-[60px] max-w-[1200px] items-center justify-between px-6">
@@ -107,25 +205,17 @@ export default function LandingPage() {
             </span>
           </Link>
 
+          {/* Desktop nav */}
           <div className="hidden items-center gap-8 md:flex">
-            <a
-              href="#features"
-              className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#666] transition-colors hover:text-[#1a1a1a]"
-            >
-              Features
-            </a>
-            <a
-              href="#platform"
-              className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#666] transition-colors hover:text-[#1a1a1a]"
-            >
-              Platform
-            </a>
-            <a
-              href="#why-sis"
-              className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#666] transition-colors hover:text-[#1a1a1a]"
-            >
-              Why SIS
-            </a>
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#666] transition-colors hover:text-[#1a1a1a]"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
 
           <div className="flex items-center gap-3">
@@ -133,46 +223,91 @@ export default function LandingPage() {
               href="/dashboard"
               className="inline-flex items-center gap-2 rounded-full bg-[#1a1a1a] px-5 py-2 text-[13px] font-medium text-white transition-all hover:bg-[#333] active:scale-[0.98]"
             >
-              Open Dashboard
+              <span className="hidden sm:inline">Open Dashboard</span>
+              <span className="sm:hidden">Dashboard</span>
               <ArrowUpRight size={14} weight="bold" />
             </Link>
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="flex h-9 w-9 items-center justify-center rounded-md text-[#666] hover:bg-black/[0.04] md:hidden"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X size={20} weight="bold" />
+              ) : (
+                <List size={20} weight="bold" />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile dropdown menu */}
+        {mobileMenuOpen && (
+          <div className="border-t border-black/[0.04] bg-[#fafafa] px-6 py-4 md:hidden">
+            <div className="flex flex-col gap-3">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[14px] font-medium text-[#555] transition-colors hover:text-[#1a1a1a] py-1"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* ─── Hero ─────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
-        {/* Warm gradient orbs */}
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-0 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-gradient-to-b from-orange-200/60 via-amber-100/40 to-transparent blur-[100px]" />
-          <div className="absolute right-1/4 top-32 h-[300px] w-[300px] rounded-full bg-orange-100/50 blur-[80px]" />
-          <div className="absolute left-1/4 top-48 h-[250px] w-[250px] rounded-full bg-amber-100/40 blur-[80px]" />
+        {/* Animated mesh gradient orbs */}
+        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          {/* Main warm sun orb */}
+          <div className="mesh-orb-1 absolute left-1/2 top-[-100px] h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-gradient-radial from-orange-300/60 via-amber-200/30 to-transparent blur-[80px]"
+            style={{ background: 'radial-gradient(circle, rgba(251,191,36,0.4) 0%, rgba(251,146,60,0.25) 35%, rgba(254,215,170,0.1) 60%, transparent 80%)' }}
+          />
+          {/* Secondary warm orb - right */}
+          <div className="mesh-orb-2 absolute right-[10%] top-[60px] h-[400px] w-[400px] rounded-full blur-[90px]"
+            style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.3) 0%, rgba(253,186,116,0.15) 50%, transparent 80%)' }}
+          />
+          {/* Tertiary warm orb - left */}
+          <div className="mesh-orb-3 absolute left-[5%] top-[120px] h-[350px] w-[350px] rounded-full blur-[80px]"
+            style={{ background: 'radial-gradient(circle, rgba(254,215,170,0.35) 0%, rgba(251,191,36,0.15) 50%, transparent 80%)' }}
+          />
+          {/* Subtle peach accent */}
+          <div className="mesh-orb-4 absolute left-[40%] top-[200px] h-[250px] w-[250px] rounded-full blur-[70px]"
+            style={{ background: 'radial-gradient(circle, rgba(253,164,100,0.3) 0%, rgba(251,191,36,0.1) 60%, transparent 85%)' }}
+          />
         </div>
 
         <div className="mx-auto max-w-[1200px] px-6 pb-24 pt-24 md:pb-32 md:pt-36">
           <div className="mx-auto max-w-[700px] text-center">
             {/* Badge */}
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+            <div className="animate-fade-up mb-8 inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#e67e22]" />
               School Management Platform
             </div>
 
             {/* Headline */}
-            <h1 className="text-[42px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] sm:text-[52px] md:text-[64px]">
+            <h1 className="animate-fade-up-delay-1 text-[42px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] sm:text-[52px] md:text-[64px]">
               Student Information
               <br />
               System
             </h1>
 
             {/* Subtext */}
-            <p className="mx-auto mt-6 max-w-[480px] text-[16px] leading-[1.7] text-[#888] md:text-[18px]">
+            <p className="animate-fade-up-delay-2 mx-auto mt-6 max-w-[480px] text-[16px] leading-[1.7] text-[#888] md:text-[18px]">
               Built for modern schools. Powered by real-time data.
               <br className="hidden sm:block" />
               Delivering complete institutional oversight.
             </p>
 
             {/* CTAs */}
-            <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <div className="animate-fade-up-delay-3 mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/dashboard"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1a1a1a] px-7 py-3 text-[14px] font-medium text-white shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-all hover:bg-[#333] hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] active:scale-[0.98] sm:w-auto"
@@ -249,7 +384,6 @@ export default function LandingPage() {
         className="border-t border-black/[0.04] bg-white py-20 md:py-28"
       >
         <div className="mx-auto max-w-[1200px] px-6">
-          {/* Section header */}
           <div className="mx-auto max-w-[500px] text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#999]">
               Modules
@@ -264,7 +398,6 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Feature grid */}
           <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
               <div
@@ -302,8 +435,7 @@ export default function LandingPage() {
             </h2>
             <p className="mt-4 text-[15px] leading-[1.7] text-[#888]">
               Modern technology stack designed for speed, reliability, and
-              scalability. From enrollment to fee collection, SIS handles it
-              all.
+              scalability. From enrollment to fee collection.
             </p>
           </div>
 
@@ -338,10 +470,14 @@ export default function LandingPage() {
       <section className="border-t border-black/[0.04] bg-white py-20 md:py-28">
         <div className="mx-auto max-w-[1200px] px-6">
           <div className="relative overflow-hidden rounded-[28px] bg-[#1a1a1a] px-8 py-16 text-center md:px-16 md:py-20">
-            {/* Warm glow */}
-            <div className="pointer-events-none absolute inset-0">
-              <div className="absolute left-1/2 top-0 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500/[0.08] blur-[100px]" />
-              <div className="absolute bottom-0 right-1/4 h-[200px] w-[300px] rounded-full bg-amber-500/[0.06] blur-[80px]" />
+            {/* Warm animated glow in CTA */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div className="mesh-orb-1 absolute left-1/2 top-0 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[100px]"
+                style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.15) 0%, rgba(251,191,36,0.08) 50%, transparent 80%)' }}
+              />
+              <div className="mesh-orb-3 absolute bottom-0 right-1/4 h-[200px] w-[300px] rounded-full blur-[80px]"
+                style={{ background: 'radial-gradient(circle, rgba(253,186,116,0.1) 0%, transparent 70%)' }}
+              />
             </div>
 
             <div className="relative z-10">
