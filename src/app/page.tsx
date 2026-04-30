@@ -26,19 +26,25 @@ const workflowMarks = [
 
 const experiences = [
   {
-    title: "Attendance Sync",
-    label: "Start review",
-    className: "from-[#ca7ab0] via-[#aeb9ff] to-[#8f8cec]",
+    title: "Cart Recovery",
+    label: "Start speaking",
+    id: "cart",
+    colors: ["#c45c9b", "#c8d3ff", "#8d86e8"],
+    glow: "#a9b7ff",
   },
   {
-    title: "Fee Follow-ups",
-    label: "Start collection",
-    className: "from-[#eb6a1f] via-[#ffb24e] to-[#ffd08a]",
+    title: "Appointment Booking",
+    label: "Start speaking",
+    id: "booking",
+    colors: ["#e96b1f", "#ff9f32", "#ffc66e"],
+    glow: "#ffbe68",
   },
   {
-    title: "Exam Insights",
-    label: "Start analysis",
-    className: "from-[#7ab842] via-[#c8d593] to-[#e2c9ce]",
+    title: "Payment follow-ups",
+    label: "Start speaking",
+    id: "payment",
+    colors: ["#7fb542", "#bfd29a", "#e4c9cb"],
+    glow: "#d9d5a6",
   },
 ];
 
@@ -58,6 +64,91 @@ const metrics = [
   { value: "12.4L", label: "Fees tracked" },
 ];
 
+function OrnamentCard({
+  colors,
+  glow,
+  id,
+  label,
+  title,
+}: {
+  colors: string[];
+  glow: string;
+  id: string;
+  label: string;
+  title: string;
+}) {
+  const gradientId = `ornament-gradient-${id}`;
+  const glowId = `ornament-glow-${id}`;
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative h-[342px] w-[360px] max-w-full sm:h-[360px] sm:w-[380px]">
+        <svg
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full overflow-visible"
+          viewBox="0 0 380 360"
+        >
+          <defs>
+            <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor={colors[0]} />
+              <stop offset="52%" stopColor={colors[1]} />
+              <stop offset="100%" stopColor={colors[2]} />
+            </linearGradient>
+            <radialGradient id={glowId} cx="50%" cy="51%" r="48%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.54" />
+              <stop offset="52%" stopColor={glow} stopOpacity="0.36" />
+              <stop offset="100%" stopColor={colors[0]} stopOpacity="0" />
+            </radialGradient>
+            <filter
+              colorInterpolationFilters="sRGB"
+              height="130%"
+              id={`shadow-${id}`}
+              width="130%"
+              x="-15%"
+              y="-12%"
+            >
+              <feDropShadow
+                dx="0"
+                dy="16"
+                floodColor="#000000"
+                floodOpacity="0.13"
+                stdDeviation="14"
+              />
+              <feDropShadow
+                dx="0"
+                dy="0"
+                floodColor={colors[0]}
+                floodOpacity="0.28"
+                stdDeviation="1"
+              />
+            </filter>
+          </defs>
+          <path
+            d="M190 8C195 54 222 45 251 45C295 45 322 72 322 116C356 116 373 139 373 174C373 207 356 232 322 232V259C322 303 295 330 251 330C222 330 195 321 190 354C185 321 158 330 129 330C85 330 58 303 58 259V232C24 232 7 207 7 174C7 139 24 116 58 116C58 72 85 45 129 45C158 45 185 54 190 8Z"
+            fill={`url(#${gradientId})`}
+            filter={`url(#shadow-${id})`}
+            stroke="rgba(255,255,255,0.28)"
+            strokeWidth="2"
+          />
+          <path
+            d="M190 8C195 54 222 45 251 45C295 45 322 72 322 116C356 116 373 139 373 174C373 207 356 232 322 232V259C322 303 295 330 251 330C222 330 195 321 190 354C185 321 158 330 129 330C85 330 58 303 58 259V232C24 232 7 207 7 174C7 139 24 116 58 116C58 72 85 45 129 45C158 45 185 54 190 8Z"
+            fill={`url(#${glowId})`}
+          />
+        </svg>
+        <button
+          className="absolute left-1/2 top-[49%] inline-flex h-[62px] min-w-[192px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/22 px-8 text-[18px] font-semibold text-white shadow-[inset_0_0_18px_rgba(255,255,255,0.2),0_16px_34px_rgba(58,58,58,0.16)] backdrop-blur-md"
+          type="button"
+        >
+          {label}
+        </button>
+      </div>
+      <h3 className="-mt-1 text-center text-[24px] font-medium leading-tight text-[#3c3c3c] md:text-[25px]">
+        {title}
+      </h3>
+    </div>
+  );
+}
+
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -66,40 +157,20 @@ export default function LandingPage() {
       <style jsx>{`
         .hero-field {
           background:
-            linear-gradient(180deg, rgba(248, 224, 194, 0.88) 0%, rgba(224, 232, 255, 0.88) 34%, rgba(247, 247, 245, 0.96) 82%),
-            radial-gradient(ellipse at top center, rgba(239, 117, 54, 0.48), transparent 38%),
-            radial-gradient(ellipse at 50% 36%, rgba(119, 150, 255, 0.42), transparent 50%);
-        }
-
-        .soft-ornament {
-          clip-path: polygon(
-            50% 0%,
-            58% 16%,
-            76% 14%,
-            84% 30%,
-            84% 42%,
-            100% 50%,
-            84% 58%,
-            84% 70%,
-            76% 86%,
-            58% 84%,
-            50% 100%,
-            42% 84%,
-            24% 86%,
-            16% 70%,
-            16% 58%,
-            0% 50%,
-            16% 42%,
-            16% 30%,
-            24% 14%,
-            42% 16%
-          );
+            linear-gradient(180deg, rgba(254, 235, 214, 0.96) 0%, rgba(224, 232, 255, 0.92) 33%, rgba(247, 247, 245, 0.98) 82%),
+            radial-gradient(ellipse at top center, rgba(239, 117, 54, 0.54), transparent 38%),
+            radial-gradient(ellipse at 50% 36%, rgba(125, 151, 255, 0.42), transparent 52%);
         }
       `}</style>
 
       <header className="fixed inset-x-0 top-0 z-50 px-2">
-        <nav className="mx-auto flex h-[72px] max-w-[1660px] items-center justify-between rounded-b-[34px] border border-white/70 bg-white/78 px-5 shadow-[0_18px_48px_rgba(72,86,130,0.14)] backdrop-blur-xl md:px-9">
-          <BrandLogo href="/" priority size="sm" textClassName="text-3xl" />
+        <nav className="mx-auto flex h-[74px] max-w-[1660px] items-center justify-between rounded-b-[36px] border border-white/80 bg-white/82 px-5 shadow-[0_18px_48px_rgba(72,86,130,0.13)] backdrop-blur-xl md:px-9">
+          <Link
+            className="text-[36px] font-bold leading-none text-black"
+            href="/"
+          >
+            SIS
+          </Link>
 
           <div className="hidden items-center gap-12 lg:flex">
             {navLinks.map((link) => (
@@ -115,13 +186,13 @@ export default function LandingPage() {
 
           <div className="hidden items-center gap-3 sm:flex">
             <Link
-              className="inline-flex h-14 items-center justify-center rounded-full bg-[#202020] px-7 text-base font-semibold text-white shadow-[inset_0_0_14px_rgba(255,255,255,0.24),0_8px_22px_rgba(0,0,0,0.18)] transition-transform active:scale-[0.98]"
+              className="inline-flex h-[60px] items-center justify-center rounded-full bg-[#202020] px-7 text-[18px] font-semibold text-white shadow-[inset_0_0_16px_rgba(255,255,255,0.26),0_8px_22px_rgba(0,0,0,0.17)] transition-transform active:scale-[0.98]"
               href="/signup"
             >
               Experience SIS
             </Link>
             <Link
-              className="inline-flex h-14 items-center justify-center rounded-full border border-black/5 bg-white px-7 text-base font-medium text-black shadow-[0_8px_22px_rgba(0,0,0,0.08)] transition-transform active:scale-[0.98]"
+              className="inline-flex h-[60px] items-center justify-center rounded-full border border-black/5 bg-white px-7 text-[18px] font-medium text-black shadow-[0_8px_22px_rgba(0,0,0,0.08)] transition-transform active:scale-[0.98]"
               href="/login"
             >
               Log in
@@ -171,7 +242,7 @@ export default function LandingPage() {
       </header>
 
       <main>
-        <section className="hero-field relative min-h-[740px] overflow-hidden px-5 pb-20 pt-32 md:pt-40">
+        <section className="hero-field relative min-h-[740px] overflow-hidden px-5 pb-20 pt-32 md:pt-[168px]">
           <Image
             alt=""
             aria-hidden="true"
@@ -196,15 +267,15 @@ export default function LandingPage() {
               <span className="h-px flex-1 bg-white/80" />
             </div>
 
-            <p className="mb-12 rounded-full border border-[#2a3192]/10 bg-white/24 px-5 py-3 text-base font-medium text-[#25319a] shadow-[0_18px_42px_rgba(75,97,180,0.12)] backdrop-blur-md">
+            <p className="mb-12 rounded-full border border-[#2a3192]/10 bg-white/24 px-5 py-3 text-[20px] font-medium text-[#25319a] shadow-[0_18px_42px_rgba(75,97,180,0.12)] backdrop-blur-md">
               India-ready school management platform
             </p>
 
-            <h1 className="font-[Georgia,serif] text-[46px] font-normal leading-[1.08] text-[#222] sm:text-[68px] md:text-[82px]">
-              Student Information System
+            <h1 className="font-[Georgia,serif] text-[48px] font-normal leading-[1.08] text-[#222] sm:text-[70px] md:text-[84px]">
+              SIS for every school in India
             </h1>
 
-            <p className="mt-8 max-w-[760px] text-[20px] leading-8 text-[#3f3f3f] md:text-[24px] md:leading-10">
+            <p className="mt-7 max-w-[850px] text-[22px] leading-9 text-[#3f3f3f] md:text-[26px] md:leading-10">
               Built for modern schools. Powered by real-time Supabase data.
               Delivering complete institutional oversight.
             </p>
@@ -237,7 +308,7 @@ export default function LandingPage() {
           <div className="mx-auto mt-16 grid max-w-[1500px] grid-cols-2 gap-x-8 gap-y-10 text-center sm:grid-cols-3 lg:grid-cols-7">
             {workflowMarks.map((mark) => (
               <div
-                className="text-[26px] font-semibold text-[#8c8c8c] opacity-70 grayscale"
+                className="text-[28px] font-semibold text-[#8c8c8c] opacity-55 grayscale"
                 key={mark}
               >
                 {mark}
@@ -245,18 +316,18 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <h2 className="mx-auto mt-32 max-w-[900px] text-center font-[Georgia,serif] text-[38px] font-normal leading-tight text-[#242424] md:text-[54px]">
+          <h2 className="mx-auto mt-32 max-w-[900px] text-center font-[Georgia,serif] text-[38px] font-normal leading-tight text-[#242424] md:text-[52px]">
             Powering India&apos;s student-first future
           </h2>
         </section>
 
         <section
-          className="bg-[linear-gradient(180deg,#dfe5ff_0%,#f6f7fb_100%)] px-5 py-16 md:py-24"
+          className="bg-[linear-gradient(180deg,#dfe5ff_0%,#f6f7fb_100%)] px-5 py-0 pb-16 md:pb-20"
           id="experience"
         >
-          <div className="mx-auto max-w-[1420px] overflow-hidden rounded-[34px] bg-white shadow-[0_30px_80px_rgba(73,91,160,0.14)]">
-            <div className="flex items-center justify-between border-b border-black/8 px-6 py-8 md:px-12">
-              <h2 className="text-[24px] font-medium text-[#3b3b3b] md:text-[30px]">
+          <div className="mx-auto max-w-[1424px] overflow-hidden rounded-[48px] bg-white shadow-[0_30px_80px_rgba(73,91,160,0.12)]">
+            <div className="flex h-[118px] items-center justify-between border-b border-black/8 px-8 md:px-[50px]">
+              <h2 className="text-[26px] font-medium text-[#3b3b3b] md:text-[30px]">
                 Experience SIS
               </h2>
               <div className="flex items-center gap-3 text-sm font-semibold text-[#444]">
@@ -265,20 +336,16 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="grid gap-12 px-6 py-16 md:grid-cols-3 md:px-12 md:py-24">
+            <div className="grid gap-9 px-5 pb-[82px] pt-[58px] md:grid-cols-3 md:px-[58px] md:pt-[58px]">
               {experiences.map((item) => (
-                <div className="flex flex-col items-center" key={item.title}>
-                  <div
-                    className={`soft-ornament flex h-[230px] w-[260px] items-center justify-center bg-gradient-to-b ${item.className} p-8 shadow-[inset_0_0_44px_rgba(255,255,255,0.36),0_18px_42px_rgba(60,60,100,0.12)] sm:h-[270px] sm:w-[310px]`}
-                  >
-                    <span className="inline-flex h-14 min-w-[168px] items-center justify-center rounded-full border border-white/55 bg-white/24 px-7 text-base font-semibold text-white shadow-[0_16px_34px_rgba(0,0,0,0.14)] backdrop-blur-md">
-                      {item.label}
-                    </span>
-                  </div>
-                  <h3 className="mt-9 text-[22px] font-medium text-[#3d3d3d] md:text-[26px]">
-                    {item.title}
-                  </h3>
-                </div>
+                <OrnamentCard
+                  colors={item.colors}
+                  glow={item.glow}
+                  id={item.id}
+                  key={item.title}
+                  label={item.label}
+                  title={item.title}
+                />
               ))}
             </div>
           </div>
