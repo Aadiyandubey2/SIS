@@ -13,6 +13,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://sis-dashboard.vercel.app";
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -20,6 +23,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "SIS — Student Information System",
     template: "%s | SIS",
@@ -35,6 +39,28 @@ export const metadata: Metadata = {
     "education software",
   ],
   authors: [{ name: "SIS Team" }],
+  icons: {
+    icon: [
+      {
+        url: "/icon.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+      {
+        url: "/favicon.ico",
+        sizes: "any",
+      },
+    ],
+    shortcut: "/icon.png",
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "en_IN",
@@ -42,12 +68,21 @@ export const metadata: Metadata = {
     title: "SIS — Student Information System",
     description:
       "Enterprise-grade Student Information System for managing students, courses, attendance, exams, and fees.",
+    images: [
+      {
+        url: "/icon.png",
+        width: 512,
+        height: 512,
+        alt: "SIS logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "SIS — Student Information System",
     description:
       "Enterprise-grade Student Information System for managing students, courses, attendance, exams, and fees.",
+    images: ["/icon.png"],
   },
   robots: {
     index: true,

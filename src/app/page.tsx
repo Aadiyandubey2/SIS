@@ -13,7 +13,6 @@ import {
   Lightning,
   ShieldCheck,
   Globe,
-  GraduationCap,
   CheckCircle,
   ArrowUpRight,
   Users,
@@ -22,6 +21,8 @@ import {
   List,
   X,
 } from "@phosphor-icons/react";
+
+import { BrandLogo } from "@/components/brand-logo";
 
 const features = [
   {
@@ -196,14 +197,13 @@ export default function LandingPage() {
       {/* ─── Navbar ───────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 border-b border-black/[0.04] bg-[#fafafa]/80 backdrop-blur-xl">
         <div className="mx-auto flex h-[60px] max-w-[1200px] items-center justify-between px-6">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1a1a1a]">
-              <GraduationCap size={16} weight="bold" className="text-white" />
-            </div>
-            <span className="text-[17px] font-semibold tracking-[-0.02em] text-[#1a1a1a]">
-              SIS
-            </span>
-          </Link>
+          <BrandLogo
+            href="/"
+            markClassName="rounded-lg"
+            priority
+            size="sm"
+            textClassName="text-[17px]"
+          />
 
           {/* Desktop nav */}
           <div className="hidden items-center gap-8 md:flex">
@@ -552,12 +552,7 @@ export default function LandingPage() {
       <footer className="border-t border-black/[0.04]">
         <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-8 sm:flex-row sm:justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1a1a1a]">
-              <GraduationCap size={12} weight="bold" className="text-white" />
-            </div>
-            <span className="text-[13px] font-semibold text-[#1a1a1a]">
-              SIS
-            </span>
+            <BrandLogo size="xs" textClassName="text-[13px]" />
             <span className="text-[11px] text-[#bbb]">v1.0</span>
           </div>
           <p className="text-[11px] text-[#bbb]">

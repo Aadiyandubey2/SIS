@@ -13,6 +13,7 @@ import {
   PanelLeft,
   X,
 } from "lucide-react";
+import { BrandLogo } from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
@@ -61,17 +62,19 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         )}
       >
         {/* Logo */}
-        <div className="flex h-14 items-center border-b border-border px-4">
-          {!collapsed && (
-            <span className="text-base font-semibold tracking-tight text-foreground">
-              SIS
-            </span>
+        <div
+          className={cn(
+            "flex h-14 items-center border-b border-border px-4",
+            collapsed && !open && "gap-0 px-1"
           )}
-          {!collapsed && (
-            <span className="ml-1.5 text-xs font-medium text-muted-foreground">
-              Dashboard
-            </span>
-          )}
+        >
+          <BrandLogo
+            className={cn(collapsed && !open && "gap-0")}
+            href="/dashboard"
+            showText={!collapsed || open}
+            size={collapsed && !open ? "xs" : "sm"}
+            subtitle={!collapsed || open ? "Dashboard" : undefined}
+          />
 
           {/* Mobile: close button */}
           <button
@@ -87,7 +90,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             onClick={() => setCollapsed(!collapsed)}
             className={cn(
               "hidden md:flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors",
-              collapsed ? "mx-auto" : "ml-auto"
+              collapsed ? "ml-0" : "ml-auto"
             )}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >

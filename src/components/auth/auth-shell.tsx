@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
-import { Database, GraduationCap, ShieldCheck, Users } from "lucide-react";
+import { Database, ShieldCheck, Users } from "lucide-react";
+
+import { BrandLogo } from "@/components/brand-logo";
 
 const highlights = [
   {
@@ -22,12 +23,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
     <main className="min-h-screen bg-[#f7f7f5] px-4 py-8 text-foreground">
       <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-10 lg:grid-cols-[1fr_430px]">
         <section className="hidden h-full min-h-[640px] flex-col justify-between rounded-lg border border-black/5 bg-white p-8 shadow-sm lg:flex">
-          <Link className="flex items-center gap-2.5" href="/">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background">
-              <GraduationCap className="h-5 w-5" />
-            </span>
-            <span className="font-semibold tracking-tight">SIS</span>
-          </Link>
+          <BrandLogo href="/" priority />
 
           <div className="max-w-xl">
             <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
@@ -58,15 +54,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
         </section>
 
         <section className="mx-auto w-full max-w-[430px]">
-          <Link
-            className="mb-8 flex items-center justify-center gap-2.5 lg:hidden"
-            href="/"
-          >
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background">
-              <GraduationCap className="h-5 w-5" />
-            </span>
-            <span className="font-semibold tracking-tight">SIS</span>
-          </Link>
+          <BrandLogo className="mb-8 justify-center lg:hidden" href="/" priority />
           {children}
         </section>
       </div>
