@@ -60,7 +60,7 @@ export function BrandLogo({
       </span>
       {showText && (
         <span className={cn("min-w-0 leading-none", textClassName)}>
-          <span className="block truncate font-semibold tracking-tight text-foreground">
+          <span className="block truncate font-semibold text-foreground">
             SIS
           </span>
           {subtitle && (

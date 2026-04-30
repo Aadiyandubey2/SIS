@@ -1,562 +1,337 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import {
-  Student,
-  BookOpenText,
-  CalendarCheck,
-  Exam,
-  CurrencyInr,
-  ChartBar,
-  ArrowRight,
-  Lightning,
-  ShieldCheck,
-  Globe,
-  CheckCircle,
-  ArrowUpRight,
-  Users,
-  Clock,
-  ChartLineUp,
-  List,
-  X,
-} from "@phosphor-icons/react";
+import { ArrowRight, List, X } from "@phosphor-icons/react";
 
 import { BrandLogo } from "@/components/brand-logo";
 
-const features = [
-  {
-    icon: Student,
-    title: "Student Management",
-    description:
-      "Complete student profiles with enrollment, attendance rates, fee status, and academic records in one place.",
-  },
-  {
-    icon: BookOpenText,
-    title: "Course Curriculum",
-    description:
-      "Manage courses, assign teachers, set schedules, and track student enrollment across all classes.",
-  },
-  {
-    icon: CalendarCheck,
-    title: "Attendance Tracking",
-    description:
-      "Real-time daily attendance with check-in/check-out times, absence alerts, and automated rate calculation.",
-  },
-  {
-    icon: Exam,
-    title: "Exam Management",
-    description:
-      "Schedule exams, record results, track average scores and pass rates with detailed analytics.",
-  },
-  {
-    icon: CurrencyInr,
-    title: "Fee Collection",
-    description:
-      "Track tuition, lab, and transport fees. Monitor paid, pending, and overdue balances per student.",
-  },
-  {
-    icon: ChartBar,
-    title: "Analytics Dashboard",
-    description:
-      "KPI cards, trend indicators, recent activity feeds, and smart alerts — all at a glance.",
-  },
-];
-
-const pillars = [
-  {
-    icon: Lightning,
-    title: "Lightning fast",
-    description:
-      "Built on Next.js with server components for instant page loads and seamless navigation.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Secure & reliable",
-    description:
-      "Supabase-powered backend with row-level security, real-time sync, and automatic backups.",
-  },
-  {
-    icon: Globe,
-    title: "Deploy anywhere",
-    description:
-      "Vercel-optimized with one-click deploy, automatic HTTPS, edge caching, and global CDN.",
-  },
-];
-
-const stats = [
-  { value: "2,847", label: "Students Managed", icon: Users },
-  { value: "15+", label: "Active Courses", icon: BookOpenText },
-  { value: "94.2%", label: "Attendance Rate", icon: Clock },
-  { value: "₹12.4L", label: "Revenue Tracked", icon: ChartLineUp },
-];
-
 const navLinks = [
-  { href: "#features", label: "Features" },
   { href: "#platform", label: "Platform" },
-  { href: "#why-sis", label: "Why SIS" },
+  { href: "#experience", label: "Experience" },
+  { href: "#modules", label: "Resources" },
+  { href: "#company", label: "Company" },
+];
+
+const workflowMarks = [
+  "Admissions",
+  "Attendance",
+  "Courses",
+  "Exams",
+  "Fees",
+  "Parents",
+  "Reports",
+];
+
+const experiences = [
+  {
+    title: "Attendance Sync",
+    label: "Start review",
+    className: "from-[#ca7ab0] via-[#aeb9ff] to-[#8f8cec]",
+  },
+  {
+    title: "Fee Follow-ups",
+    label: "Start collection",
+    className: "from-[#eb6a1f] via-[#ffb24e] to-[#ffd08a]",
+  },
+  {
+    title: "Exam Insights",
+    label: "Start analysis",
+    className: "from-[#7ab842] via-[#c8d593] to-[#e2c9ce]",
+  },
+];
+
+const modules = [
+  "Student records",
+  "Course planning",
+  "Daily attendance",
+  "Exam results",
+  "Fee tracking",
+  "Live dashboards",
+];
+
+const metrics = [
+  { value: "2,847", label: "Students managed" },
+  { value: "94.2%", label: "Attendance visibility" },
+  { value: "15+", label: "Active courses" },
+  { value: "12.4L", label: "Fees tracked" },
 ];
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#fafafa]">
-      {/* ─── Animated mesh gradient (sarvam sun-like effect) ─────── */}
+    <div className="min-h-screen overflow-hidden bg-[#f7f7f5] text-[#242424]">
       <style jsx>{`
-        @keyframes meshMove {
-          0%,
-          100% {
-            transform: translate(0%, 0%) scale(1);
-          }
-          25% {
-            transform: translate(5%, -5%) scale(1.05);
-          }
-          50% {
-            transform: translate(-3%, 3%) scale(0.97);
-          }
-          75% {
-            transform: translate(4%, 2%) scale(1.03);
-          }
+        .hero-field {
+          background:
+            linear-gradient(180deg, rgba(248, 224, 194, 0.88) 0%, rgba(224, 232, 255, 0.88) 34%, rgba(247, 247, 245, 0.96) 82%),
+            radial-gradient(ellipse at top center, rgba(239, 117, 54, 0.48), transparent 38%),
+            radial-gradient(ellipse at 50% 36%, rgba(119, 150, 255, 0.42), transparent 50%);
         }
-        @keyframes meshMove2 {
-          0%,
-          100% {
-            transform: translate(0%, 0%) scale(1);
-          }
-          25% {
-            transform: translate(-6%, 4%) scale(1.08);
-          }
-          50% {
-            transform: translate(4%, -3%) scale(0.95);
-          }
-          75% {
-            transform: translate(-2%, -5%) scale(1.02);
-          }
-        }
-        @keyframes meshMove3 {
-          0%,
-          100% {
-            transform: translate(0%, 0%) scale(1.02);
-          }
-          33% {
-            transform: translate(6%, 4%) scale(0.96);
-          }
-          66% {
-            transform: translate(-4%, -2%) scale(1.06);
-          }
-        }
-        @keyframes meshPulse {
-          0%,
-          100% {
-            opacity: 0.4;
-          }
-          50% {
-            opacity: 0.7;
-          }
-        }
-        .mesh-orb-1 {
-          animation: meshMove 12s ease-in-out infinite, meshPulse 8s ease-in-out infinite;
-        }
-        .mesh-orb-2 {
-          animation: meshMove2 15s ease-in-out infinite, meshPulse 10s ease-in-out infinite 2s;
-        }
-        .mesh-orb-3 {
-          animation: meshMove3 18s ease-in-out infinite, meshPulse 12s ease-in-out infinite 4s;
-        }
-        .mesh-orb-4 {
-          animation: meshMove 20s ease-in-out infinite reverse, meshPulse 14s ease-in-out infinite 1s;
-        }
-        @keyframes fadeUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-up {
-          animation: fadeUp 0.8s ease-out forwards;
-        }
-        .animate-fade-up-delay-1 {
-          animation: fadeUp 0.8s ease-out 0.15s forwards;
-          opacity: 0;
-        }
-        .animate-fade-up-delay-2 {
-          animation: fadeUp 0.8s ease-out 0.3s forwards;
-          opacity: 0;
-        }
-        .animate-fade-up-delay-3 {
-          animation: fadeUp 0.8s ease-out 0.45s forwards;
-          opacity: 0;
+
+        .soft-ornament {
+          clip-path: polygon(
+            50% 0%,
+            58% 16%,
+            76% 14%,
+            84% 30%,
+            84% 42%,
+            100% 50%,
+            84% 58%,
+            84% 70%,
+            76% 86%,
+            58% 84%,
+            50% 100%,
+            42% 84%,
+            24% 86%,
+            16% 70%,
+            16% 58%,
+            0% 50%,
+            16% 42%,
+            16% 30%,
+            24% 14%,
+            42% 16%
+          );
         }
       `}</style>
 
-      {/* ─── Navbar ───────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 border-b border-black/[0.04] bg-[#fafafa]/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-[60px] max-w-[1200px] items-center justify-between px-6">
-          <BrandLogo
-            href="/"
-            markClassName="rounded-lg"
-            priority
-            size="sm"
-            textClassName="text-[17px]"
-          />
+      <header className="fixed inset-x-0 top-0 z-50 px-2">
+        <nav className="mx-auto flex h-[72px] max-w-[1660px] items-center justify-between rounded-b-[34px] border border-white/70 bg-white/78 px-5 shadow-[0_18px_48px_rgba(72,86,130,0.14)] backdrop-blur-xl md:px-9">
+          <BrandLogo href="/" priority size="sm" textClassName="text-3xl" />
 
-          {/* Desktop nav */}
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-12 lg:flex">
             {navLinks.map((link) => (
               <a
-                key={link.label}
+                className="text-sm font-semibold uppercase text-black transition-colors hover:text-[#2a3192]"
                 href={link.href}
-                className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#666] transition-colors hover:text-[#1a1a1a]"
+                key={link.label}
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="hidden items-center gap-3 sm:flex">
             <Link
+              className="inline-flex h-14 items-center justify-center rounded-full bg-[#202020] px-7 text-base font-semibold text-white shadow-[inset_0_0_14px_rgba(255,255,255,0.24),0_8px_22px_rgba(0,0,0,0.18)] transition-transform active:scale-[0.98]"
+              href="/signup"
+            >
+              Experience SIS
+            </Link>
+            <Link
+              className="inline-flex h-14 items-center justify-center rounded-full border border-black/5 bg-white px-7 text-base font-medium text-black shadow-[0_8px_22px_rgba(0,0,0,0.08)] transition-transform active:scale-[0.98]"
               href="/login"
-              className="hidden items-center rounded-full border border-black/[0.08] bg-white px-5 py-2 text-[13px] font-medium text-[#555] transition-all hover:bg-[#f5f5f5] hover:text-[#1a1a1a] active:scale-[0.98] sm:inline-flex"
             >
               Log in
             </Link>
-            <Link
-              href="/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-[#1a1a1a] px-5 py-2 text-[13px] font-medium text-white transition-all hover:bg-[#333] active:scale-[0.98]"
-            >
-              <span className="hidden sm:inline">Sign up</span>
-              <span className="sm:hidden">Sign up</span>
-              <ArrowUpRight size={14} weight="bold" />
-            </Link>
-
-            {/* Mobile hamburger */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-md text-[#666] hover:bg-black/[0.04] md:hidden"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? (
-                <X size={20} weight="bold" />
-              ) : (
-                <List size={20} weight="bold" />
-              )}
-            </button>
           </div>
-        </div>
 
-        {/* Mobile dropdown menu */}
+          <button
+            aria-label="Toggle menu"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-black sm:hidden"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            type="button"
+          >
+            {mobileMenuOpen ? <X size={20} /> : <List size={20} />}
+          </button>
+        </nav>
+
         {mobileMenuOpen && (
-          <div className="border-t border-black/[0.04] bg-[#fafafa] px-6 py-4 md:hidden">
-            <div className="flex flex-col gap-3">
+          <div className="mx-2 mt-2 rounded-[24px] border border-white/70 bg-white/95 p-4 shadow-[0_18px_40px_rgba(0,0,0,0.12)] backdrop-blur-xl sm:hidden">
+            <div className="grid gap-2">
               {navLinks.map((link) => (
                 <a
-                  key={link.label}
+                  className="rounded-full px-4 py-3 text-sm font-semibold uppercase text-black hover:bg-[#f0f2ff]"
                   href={link.href}
+                  key={link.label}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[14px] font-medium text-[#555] transition-colors hover:text-[#1a1a1a] py-1"
                 >
                   {link.label}
                 </a>
               ))}
               <Link
+                className="rounded-full bg-[#202020] px-4 py-3 text-center text-sm font-semibold text-white"
+                href="/signup"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Experience SIS
+              </Link>
+              <Link
+                className="rounded-full border border-black/10 px-4 py-3 text-center text-sm font-semibold text-black"
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-1 text-[14px] font-medium text-[#555] transition-colors hover:text-[#1a1a1a] sm:hidden"
               >
                 Log in
               </Link>
             </div>
           </div>
         )}
-      </nav>
+      </header>
 
-      {/* ─── Hero ─────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        {/* Animated mesh gradient orbs */}
-        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-          {/* Main warm sun orb */}
-          <div className="mesh-orb-1 absolute left-1/2 top-[-100px] h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-gradient-radial from-orange-300/60 via-amber-200/30 to-transparent blur-[80px]"
-            style={{ background: 'radial-gradient(circle, rgba(251,191,36,0.4) 0%, rgba(251,146,60,0.25) 35%, rgba(254,215,170,0.1) 60%, transparent 80%)' }}
+      <main>
+        <section className="hero-field relative min-h-[740px] overflow-hidden px-5 pb-20 pt-32 md:pt-40">
+          <Image
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-24 hidden -translate-x-1/2 select-none opacity-[0.13] blur-[2px] md:block"
+            height={430}
+            priority
+            src="/icon.png"
+            width={430}
           />
-          {/* Secondary warm orb - right */}
-          <div className="mesh-orb-2 absolute right-[10%] top-[60px] h-[400px] w-[400px] rounded-full blur-[90px]"
-            style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.3) 0%, rgba(253,186,116,0.15) 50%, transparent 80%)' }}
-          />
-          {/* Tertiary warm orb - left */}
-          <div className="mesh-orb-3 absolute left-[5%] top-[120px] h-[350px] w-[350px] rounded-full blur-[80px]"
-            style={{ background: 'radial-gradient(circle, rgba(254,215,170,0.35) 0%, rgba(251,191,36,0.15) 50%, transparent 80%)' }}
-          />
-          {/* Subtle peach accent */}
-          <div className="mesh-orb-4 absolute left-[40%] top-[200px] h-[250px] w-[250px] rounded-full blur-[70px]"
-            style={{ background: 'radial-gradient(circle, rgba(253,164,100,0.3) 0%, rgba(251,191,36,0.1) 60%, transparent 85%)' }}
-          />
-        </div>
 
-        <div className="mx-auto max-w-[1200px] px-6 pb-24 pt-24 md:pb-32 md:pt-36">
-          <div className="mx-auto max-w-[700px] text-center">
-            {/* Badge */}
-            <div className="animate-fade-up mb-8 inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#e67e22]" />
-              School Management Platform
+          <div className="relative mx-auto flex max-w-[980px] flex-col items-center text-center">
+            <div className="mb-8 flex w-full max-w-[310px] items-center justify-center gap-4 text-white/90">
+              <span className="h-px flex-1 bg-white/80" />
+              <Image
+                alt="SIS logo"
+                className="rounded-full shadow-[0_0_36px_rgba(55,121,215,0.4)]"
+                height={54}
+                priority
+                src="/icon.png"
+                width={54}
+              />
+              <span className="h-px flex-1 bg-white/80" />
             </div>
 
-            {/* Headline */}
-            <h1 className="animate-fade-up-delay-1 text-[42px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] sm:text-[52px] md:text-[64px]">
-              Student Information
-              <br />
-              System
+            <p className="mb-12 rounded-full border border-[#2a3192]/10 bg-white/24 px-5 py-3 text-base font-medium text-[#25319a] shadow-[0_18px_42px_rgba(75,97,180,0.12)] backdrop-blur-md">
+              India-ready school management platform
+            </p>
+
+            <h1 className="font-[Georgia,serif] text-[46px] font-normal leading-[1.08] text-[#222] sm:text-[68px] md:text-[82px]">
+              Student Information System
             </h1>
 
-            {/* Subtext */}
-            <p className="animate-fade-up-delay-2 mx-auto mt-6 max-w-[480px] text-[16px] leading-[1.7] text-[#888] md:text-[18px]">
-              Built for modern schools. Powered by real-time data.
-              <br className="hidden sm:block" />
+            <p className="mt-8 max-w-[760px] text-[20px] leading-8 text-[#3f3f3f] md:text-[24px] md:leading-10">
+              Built for modern schools. Powered by real-time Supabase data.
               Delivering complete institutional oversight.
             </p>
 
-            {/* CTAs */}
-            <div className="animate-fade-up-delay-3 mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <div className="mt-14 flex w-full max-w-[440px] flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
+                className="inline-flex h-16 w-full items-center justify-center gap-2 rounded-full bg-[#202020] px-8 text-lg font-semibold text-white shadow-[inset_0_0_16px_rgba(255,255,255,0.24),0_14px_34px_rgba(0,0,0,0.18)] transition-transform active:scale-[0.98] sm:w-auto"
                 href="/signup"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1a1a1a] px-7 py-3 text-[14px] font-medium text-white shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-all hover:bg-[#333] hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] active:scale-[0.98] sm:w-auto"
               >
-                Create Account
-                <ArrowRight size={16} weight="bold" />
+                Experience SIS
+                <ArrowRight size={18} weight="bold" />
               </Link>
               <Link
+                className="inline-flex h-16 w-full items-center justify-center rounded-full border border-black/5 bg-white/82 px-8 text-lg font-medium text-black shadow-[0_14px_34px_rgba(0,0,0,0.08)] backdrop-blur-md transition-transform active:scale-[0.98] sm:w-auto"
                 href="/login"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-white px-7 py-3 text-[14px] font-medium text-[#555] shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all hover:border-black/[0.12] hover:bg-[#f5f5f5] hover:text-[#1a1a1a] active:scale-[0.98] sm:w-auto"
               >
                 Log in
               </Link>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ─── Stats ────────────────────────────────────────────────── */}
-      <section id="platform" className="border-y border-black/[0.04] bg-white">
-        <div className="mx-auto grid max-w-[1200px] grid-cols-2 divide-x divide-black/[0.04] px-0 md:grid-cols-4">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-col items-center px-6 py-10 md:py-14"
-            >
-              <stat.icon
-                size={20}
-                weight="duotone"
-                className="mb-3 text-[#999]"
-              />
-              <p className="text-[28px] font-semibold tracking-[-0.02em] text-[#1a1a1a] md:text-[32px]">
-                {stat.value}
-              </p>
-              <p className="mt-1 text-[12px] font-medium uppercase tracking-[0.06em] text-[#999]">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ─── Pillars (3-col) ──────────────────────────────────────── */}
-      <section className="py-20 md:py-28">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <div className="grid grid-cols-1 gap-0 divide-y divide-black/[0.04] md:grid-cols-3 md:divide-x md:divide-y-0">
-            {pillars.map((pillar) => (
+        <section
+          className="bg-[#f7f7f5] px-5 pb-20 pt-8 md:pb-28"
+          id="platform"
+        >
+          <p className="text-center text-sm font-semibold uppercase text-[#7c7c7c]">
+            Schools build with SIS
+          </p>
+          <div className="mx-auto mt-16 grid max-w-[1500px] grid-cols-2 gap-x-8 gap-y-10 text-center sm:grid-cols-3 lg:grid-cols-7">
+            {workflowMarks.map((mark) => (
               <div
-                key={pillar.title}
-                className="flex flex-col items-center px-8 py-10 text-center md:py-2"
+                className="text-[26px] font-semibold text-[#8c8c8c] opacity-70 grayscale"
+                key={mark}
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
-                  <pillar.icon
-                    size={22}
-                    weight="duotone"
-                    className="text-[#1a1a1a]"
-                  />
-                </div>
-                <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[#1a1a1a]">
-                  {pillar.title}
-                </h3>
-                <p className="mt-2 max-w-[280px] text-[13px] leading-[1.7] text-[#888]">
-                  {pillar.description}
-                </p>
+                {mark}
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ─── Features ─────────────────────────────────────────────── */}
-      <section
-        id="features"
-        className="border-t border-black/[0.04] bg-white py-20 md:py-28"
-      >
-        <div className="mx-auto max-w-[1200px] px-6">
-          <div className="mx-auto max-w-[500px] text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#999]">
-              Modules
-            </p>
-            <h2 className="mt-3 text-[32px] font-semibold leading-[1.15] tracking-[-0.03em] text-[#1a1a1a] md:text-[40px]">
-              Everything you need to
-              <br />
-              run a school
-            </h2>
-            <p className="mt-4 text-[15px] leading-[1.7] text-[#888]">
-              Six powerful modules, one seamless experience.
-            </p>
-          </div>
+          <h2 className="mx-auto mt-32 max-w-[900px] text-center font-[Georgia,serif] text-[38px] font-normal leading-tight text-[#242424] md:text-[54px]">
+            Powering India&apos;s student-first future
+          </h2>
+        </section>
 
-          <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="group rounded-2xl border border-black/[0.04] bg-[#fafafa] p-7 transition-all duration-200 hover:border-black/[0.08] hover:bg-white hover:shadow-[0_4px_24px_rgba(0,0,0,0.04)]"
-              >
-                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-black/[0.06] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-shadow group-hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
-                  <feature.icon
-                    size={20}
-                    weight="duotone"
-                    className="text-[#1a1a1a]"
-                  />
-                </div>
-                <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[#1a1a1a]">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-[13px] leading-[1.7] text-[#888]">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Why SIS ──────────────────────────────────────────────── */}
-      <section id="why-sis" className="border-t border-black/[0.04] py-20 md:py-28">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <div className="mx-auto max-w-[600px] text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#999]">
-              Why SIS
-            </p>
-            <h2 className="mt-3 text-[32px] font-semibold leading-[1.15] tracking-[-0.03em] text-[#1a1a1a] md:text-[40px]">
-              Built for performance
-            </h2>
-            <p className="mt-4 text-[15px] leading-[1.7] text-[#888]">
-              Modern technology stack designed for speed, reliability, and
-              scalability. From enrollment to fee collection.
-            </p>
-          </div>
-
-          <div className="mx-auto mt-14 max-w-[560px] space-y-5">
-            {[
-              "Server-rendered pages with real-time Supabase data",
-              "Mobile responsive with drawer-based navigation",
-              "Per-page SEO with Open Graph and Twitter cards",
-              "Dynamic sitemap and robots.txt generation",
-              "One-click Vercel deployment ready",
-              "Comprehensive loading skeletons for all routes",
-            ].map((item) => (
-              <div
-                key={item}
-                className="flex items-start gap-3.5 rounded-xl border border-black/[0.04] bg-white px-5 py-4"
-              >
-                <CheckCircle
-                  size={18}
-                  weight="fill"
-                  className="mt-0.5 shrink-0 text-[#e67e22]"
-                />
-                <span className="text-[14px] leading-[1.6] text-[#555]">
-                  {item}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CTA ──────────────────────────────────────────────────── */}
-      <section className="border-t border-black/[0.04] bg-white py-20 md:py-28">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <div className="relative overflow-hidden rounded-[28px] bg-[#1a1a1a] px-8 py-16 text-center md:px-16 md:py-20">
-            {/* Warm animated glow in CTA */}
-            <div className="pointer-events-none absolute inset-0 overflow-hidden">
-              <div className="mesh-orb-1 absolute left-1/2 top-0 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[100px]"
-                style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.15) 0%, rgba(251,191,36,0.08) 50%, transparent 80%)' }}
-              />
-              <div className="mesh-orb-3 absolute bottom-0 right-1/4 h-[200px] w-[300px] rounded-full blur-[80px]"
-                style={{ background: 'radial-gradient(circle, rgba(253,186,116,0.1) 0%, transparent 70%)' }}
-              />
-            </div>
-
-            <div className="relative z-10">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888]">
-                Get Started
-              </p>
-              <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[40px]">
-                Ready to modernize
-                <br />
-                your school?
+        <section
+          className="bg-[linear-gradient(180deg,#dfe5ff_0%,#f6f7fb_100%)] px-5 py-16 md:py-24"
+          id="experience"
+        >
+          <div className="mx-auto max-w-[1420px] overflow-hidden rounded-[34px] bg-white shadow-[0_30px_80px_rgba(73,91,160,0.14)]">
+            <div className="flex items-center justify-between border-b border-black/8 px-6 py-8 md:px-12">
+              <h2 className="text-[24px] font-medium text-[#3b3b3b] md:text-[30px]">
+                Experience SIS
               </h2>
-              <p className="mx-auto mt-4 max-w-[420px] text-[15px] leading-[1.7] text-[#888]">
-                Start managing your institution with a powerful, intuitive
-                dashboard that puts data at your fingertips.
-              </p>
-
-              <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                <Link
-                  href="/signup"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-[14px] font-medium text-[#1a1a1a] shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-all hover:bg-[#f0f0f0] active:scale-[0.98] sm:w-auto"
-                >
-                  Create Account
-                  <ArrowRight size={16} weight="bold" />
-                </Link>
-              </div>
-
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12px] text-[#666]">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle
-                    size={14}
-                    weight="fill"
-                    className="text-[#e67e22]"
-                  />
-                  Free to deploy
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle
-                    size={14}
-                    weight="fill"
-                    className="text-[#e67e22]"
-                  />
-                  Open source
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle
-                    size={14}
-                    weight="fill"
-                    className="text-[#e67e22]"
-                  />
-                  Supabase powered
-                </span>
+              <div className="flex items-center gap-3 text-sm font-semibold text-[#444]">
+                <span className="h-3 w-3 rounded-full bg-[#08c35a]" />
+                LIVE
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ─── Footer ───────────────────────────────────────────────── */}
-      <footer className="border-t border-black/[0.04]">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-8 sm:flex-row sm:justify-between">
-          <div className="flex items-center gap-2">
-            <BrandLogo size="xs" textClassName="text-[13px]" />
-            <span className="text-[11px] text-[#bbb]">v1.0</span>
+            <div className="grid gap-12 px-6 py-16 md:grid-cols-3 md:px-12 md:py-24">
+              {experiences.map((item) => (
+                <div className="flex flex-col items-center" key={item.title}>
+                  <div
+                    className={`soft-ornament flex h-[230px] w-[260px] items-center justify-center bg-gradient-to-b ${item.className} p-8 shadow-[inset_0_0_44px_rgba(255,255,255,0.36),0_18px_42px_rgba(60,60,100,0.12)] sm:h-[270px] sm:w-[310px]`}
+                  >
+                    <span className="inline-flex h-14 min-w-[168px] items-center justify-center rounded-full border border-white/55 bg-white/24 px-7 text-base font-semibold text-white shadow-[0_16px_34px_rgba(0,0,0,0.14)] backdrop-blur-md">
+                      {item.label}
+                    </span>
+                  </div>
+                  <h3 className="mt-9 text-[22px] font-medium text-[#3d3d3d] md:text-[26px]">
+                    {item.title}
+                  </h3>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="text-[11px] text-[#bbb]">
-            © 2026 Student Information System. Built with Next.js & Supabase.
+        </section>
+
+        <section className="bg-[#f7f7f5] px-5 py-20 md:py-28" id="modules">
+          <div className="mx-auto grid max-w-[1180px] gap-14 lg:grid-cols-[0.85fr_1fr] lg:items-start">
+            <div>
+              <p className="text-sm font-semibold uppercase text-[#7c7c7c]">
+                Resources
+              </p>
+              <h2 className="mt-5 font-[Georgia,serif] text-[38px] font-normal leading-tight text-[#242424] md:text-[54px]">
+                Everything a school runs on, in one place.
+              </h2>
+              <p className="mt-7 max-w-[520px] text-lg leading-8 text-[#626262]">
+                SIS connects academic, operational, and financial workflows so
+                every team sees the same source of truth.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {modules.map((module) => (
+                <div
+                  className="rounded-lg border border-black/8 bg-white px-5 py-5 text-lg font-medium text-[#2f2f2f] shadow-[0_10px_30px_rgba(0,0,0,0.04)]"
+                  key={module}
+                >
+                  {module}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mx-auto mt-20 grid max-w-[1180px] gap-px overflow-hidden rounded-lg border border-black/8 bg-black/8 sm:grid-cols-2 lg:grid-cols-4">
+            {metrics.map((metric) => (
+              <div className="bg-white p-8 text-center" key={metric.label}>
+                <div className="font-[Georgia,serif] text-[42px] text-[#242424]">
+                  {metric.value}
+                </div>
+                <p className="mt-2 text-sm font-medium text-[#777]">
+                  {metric.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-black/8 bg-white px-5 py-8" id="company">
+        <div className="mx-auto flex max-w-[1180px] flex-col items-center justify-between gap-5 sm:flex-row">
+          <BrandLogo size="sm" />
+          <p className="text-sm text-[#777]">
+            Copyright 2026 Student Information System. Built with Next.js and
+            Supabase.
           </p>
         </div>
       </footer>
