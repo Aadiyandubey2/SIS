@@ -21,15 +21,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen overflow-x-hidden">
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex flex-1 flex-col md:pl-60">
+      <div className="flex min-w-0 flex-1 flex-col md:pl-60">
         <Topbar
           onOpenCommandPalette={() => setCommandOpen(true)}
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
         />
-        <main className="flex-1 bg-muted/30">
-          <div className="mx-auto max-w-[1280px] p-4 md:p-6">
+        <main className="min-w-0 flex-1 overflow-x-hidden bg-muted/30">
+          <div className="mx-auto w-full max-w-[1280px] p-3 sm:p-4 md:p-6">
             {children}
           </div>
         </main>

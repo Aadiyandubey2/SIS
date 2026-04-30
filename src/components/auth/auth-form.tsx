@@ -271,8 +271,8 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
 
   return (
     <Card className="w-full rounded-lg border-border/80 shadow-sm">
-      <CardHeader className="gap-2 px-6 pt-6">
-        <CardTitle className="text-2xl font-semibold tracking-tight">
+      <CardHeader className="gap-2 px-5 pt-5 sm:px-6 sm:pt-6">
+        <CardTitle className="text-xl font-semibold tracking-tight sm:text-2xl">
           {isSignup ? "Create your account" : "Welcome back"}
         </CardTitle>
         <CardDescription>
@@ -281,7 +281,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             : "Sign in with an email OTP or your password."}
         </CardDescription>
       </CardHeader>
-      <CardContent className="px-6 pb-6">
+      <CardContent className="px-5 pb-5 sm:px-6 sm:pb-6">
         <div className="mb-4 grid grid-cols-2 rounded-lg bg-muted p-1">
           {(["otp", "password"] as const).map((item) => (
             <button
@@ -338,7 +338,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               <Input
                 id="otp"
                 autoComplete="one-time-code"
-                className="h-12 text-center text-lg tracking-[0.35em]"
+                className="h-12 text-center text-lg tracking-[0.22em] sm:tracking-[0.35em]"
                 disabled={loading}
                 inputMode="numeric"
                 maxLength={6}

@@ -20,8 +20,8 @@ const highlights = [
 
 export function AuthShell({ children }: { children: ReactNode }) {
   return (
-    <main className="min-h-screen bg-[#f7f7f5] px-4 py-8 text-foreground">
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-10 lg:grid-cols-[1fr_430px]">
+    <main className="min-h-screen bg-[#f7f7f5] px-3 py-5 text-foreground sm:px-4 sm:py-8">
+      <div className="mx-auto grid min-h-[calc(100vh-2.5rem)] w-full max-w-6xl items-center gap-8 sm:min-h-[calc(100vh-4rem)] lg:grid-cols-[1fr_430px] lg:gap-10">
         <section className="hidden h-full min-h-[640px] flex-col justify-between rounded-lg border border-black/5 bg-white p-8 shadow-sm lg:flex">
           <BrandLogo href="/" priority />
 
@@ -54,7 +54,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
         </section>
 
         <section className="mx-auto w-full max-w-[430px]">
-          <BrandLogo className="mb-8 justify-center lg:hidden" href="/" priority />
+          <BrandLogo className="mb-5 justify-center sm:mb-8 lg:hidden" href="/" priority />
           {children}
         </section>
       </div>

@@ -226,8 +226,8 @@ export default function AttendanceClient({ records }: AttendanceClientProps) {
       </div>
 
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[240px] max-w-sm">
+      <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center">
+        <div className="relative w-full sm:min-w-[240px] sm:max-w-sm sm:flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search students..."
@@ -237,7 +237,7 @@ export default function AttendanceClient({ records }: AttendanceClientProps) {
           />
         </div>
         <Select value={classFilter} onValueChange={(v) => v !== null && setClassFilter(v)}>
-          <SelectTrigger className="h-9 w-[130px] text-sm">
+          <SelectTrigger className="h-9 w-full text-sm sm:w-[130px]">
             <SelectValue placeholder="Class" />
           </SelectTrigger>
           <SelectContent>
@@ -248,7 +248,7 @@ export default function AttendanceClient({ records }: AttendanceClientProps) {
           </SelectContent>
         </Select>
         <Select value={statusFilter} onValueChange={(v) => v !== null && setStatusFilter(v)}>
-          <SelectTrigger className="h-9 w-[130px] text-sm">
+          <SelectTrigger className="h-9 w-full text-sm sm:w-[130px]">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>

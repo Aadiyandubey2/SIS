@@ -244,13 +244,13 @@ export default function FeesClient({ feeRecords }: FeesClientProps) {
         </Card>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[240px] max-w-sm">
+      <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center">
+        <div className="relative w-full sm:min-w-[240px] sm:max-w-sm sm:flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input placeholder="Search by student or ID..." className="pl-9 h-9 text-sm" value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)} />
         </div>
         <Select value={statusFilter} onValueChange={(v) => v !== null && setStatusFilter(v)}>
-          <SelectTrigger className="h-9 w-[130px] text-sm"><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectTrigger className="h-9 w-full text-sm sm:w-[130px]"><SelectValue placeholder="Status" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="Paid">Paid</SelectItem>

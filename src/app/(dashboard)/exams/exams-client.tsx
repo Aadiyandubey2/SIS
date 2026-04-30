@@ -248,13 +248,13 @@ export default function ExamsClient({ exams }: ExamsClientProps) {
         </Card>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[240px] max-w-sm">
+      <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center">
+        <div className="relative w-full sm:min-w-[240px] sm:max-w-sm sm:flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input placeholder="Search exams..." className="pl-9 h-9 text-sm" value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)} />
         </div>
         <Select value={classFilter} onValueChange={(v) => v !== null && setClassFilter(v)}>
-          <SelectTrigger className="h-9 w-[130px] text-sm"><SelectValue placeholder="Class" /></SelectTrigger>
+          <SelectTrigger className="h-9 w-full text-sm sm:w-[130px]"><SelectValue placeholder="Class" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Classes</SelectItem>
             <SelectItem value="8">Class 8</SelectItem>
@@ -263,7 +263,7 @@ export default function ExamsClient({ exams }: ExamsClientProps) {
           </SelectContent>
         </Select>
         <Select value={statusFilter} onValueChange={(v) => v !== null && setStatusFilter(v)}>
-          <SelectTrigger className="h-9 w-[130px] text-sm"><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectTrigger className="h-9 w-full text-sm sm:w-[130px]"><SelectValue placeholder="Status" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="Scheduled">Scheduled</SelectItem>
