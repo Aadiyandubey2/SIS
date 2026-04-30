@@ -1,19 +1,22 @@
 import Link from "next/link";
 import {
-  Users,
-  BookOpen,
+  Student,
+  BookOpenText,
   CalendarCheck,
-  ClipboardList,
-  IndianRupee,
-  LayoutDashboard,
+  Exam,
+  CurrencyInr,
+  ChartBar,
   ArrowRight,
-  CheckCircle2,
-  Shield,
-  Zap,
+  Lightning,
+  ShieldCheck,
   Globe,
-  BarChart3,
   GraduationCap,
-} from "lucide-react";
+  CheckCircle,
+  ArrowUpRight,
+  Users,
+  Clock,
+  ChartLineUp,
+} from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -24,203 +27,261 @@ export const metadata: Metadata = {
 
 const features = [
   {
-    icon: Users,
+    icon: Student,
     title: "Student Management",
     description:
       "Complete student profiles with enrollment, attendance rates, fee status, and academic records in one place.",
-    color: "from-blue-500/10 to-blue-600/5",
-    iconColor: "text-blue-600",
   },
   {
-    icon: BookOpen,
+    icon: BookOpenText,
     title: "Course Curriculum",
     description:
       "Manage courses, assign teachers, set schedules, and track student enrollment across all classes.",
-    color: "from-violet-500/10 to-violet-600/5",
-    iconColor: "text-violet-600",
   },
   {
     icon: CalendarCheck,
     title: "Attendance Tracking",
     description:
       "Real-time daily attendance with check-in/check-out times, absence alerts, and automated rate calculation.",
-    color: "from-emerald-500/10 to-emerald-600/5",
-    iconColor: "text-emerald-600",
   },
   {
-    icon: ClipboardList,
+    icon: Exam,
     title: "Exam Management",
     description:
       "Schedule exams, record results, track average scores and pass rates with detailed analytics.",
-    color: "from-amber-500/10 to-amber-600/5",
-    iconColor: "text-amber-600",
   },
   {
-    icon: IndianRupee,
+    icon: CurrencyInr,
     title: "Fee Collection",
     description:
       "Track tuition, lab, and transport fees. Monitor paid, pending, and overdue balances per student.",
-    color: "from-rose-500/10 to-rose-600/5",
-    iconColor: "text-rose-600",
   },
   {
-    icon: BarChart3,
+    icon: ChartBar,
     title: "Analytics Dashboard",
     description:
       "KPI cards, trend indicators, recent activity feeds, and smart alerts — all at a glance.",
-    color: "from-cyan-500/10 to-cyan-600/5",
-    iconColor: "text-cyan-600",
+  },
+];
+
+const pillars = [
+  {
+    icon: Lightning,
+    title: "Lightning fast",
+    description:
+      "Built on Next.js with server components for instant page loads and seamless navigation.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Secure & reliable",
+    description:
+      "Supabase-powered backend with row-level security, real-time sync, and automatic backups.",
+  },
+  {
+    icon: Globe,
+    title: "Deploy anywhere",
+    description:
+      "Vercel-optimized with one-click deploy, automatic HTTPS, edge caching, and global CDN.",
   },
 ];
 
 const stats = [
-  { value: "2,847", label: "Students Managed" },
-  { value: "15+", label: "Active Courses" },
-  { value: "94.2%", label: "Attendance Rate" },
-  { value: "₹12.4L", label: "Revenue Tracked" },
-];
-
-const benefits = [
-  {
-    icon: Zap,
-    title: "Lightning Fast",
-    description: "Built on Next.js with server components for instant page loads.",
-  },
-  {
-    icon: Shield,
-    title: "Secure & Reliable",
-    description: "Supabase-powered backend with row-level security and real-time sync.",
-  },
-  {
-    icon: Globe,
-    title: "Deploy Anywhere",
-    description: "Vercel-optimized. One-click deploy with automatic HTTPS and CDN.",
-  },
+  { value: "2,847", label: "Students Managed", icon: Users },
+  { value: "15+", label: "Active Courses", icon: BookOpenText },
+  { value: "94.2%", label: "Attendance Rate", icon: Clock },
+  { value: "₹12.4L", label: "Revenue Tracked", icon: ChartLineUp },
 ];
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900">
-              <GraduationCap className="h-4 w-4 text-white" />
+    <div className="min-h-screen bg-[#fafafa]">
+      {/* ─── Navbar ───────────────────────────────────────────────── */}
+      <nav className="sticky top-0 z-50 border-b border-black/[0.04] bg-[#fafafa]/80 backdrop-blur-xl">
+        <div className="mx-auto flex h-[60px] max-w-[1200px] items-center justify-between px-6">
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1a1a1a]">
+              <GraduationCap size={16} weight="bold" className="text-white" />
             </div>
-            <span className="text-lg font-semibold tracking-tight">SIS</span>
-          </div>
+            <span className="text-[17px] font-semibold tracking-[-0.02em] text-[#1a1a1a]">
+              SIS
+            </span>
+          </Link>
+
           <div className="hidden items-center gap-8 md:flex">
-            <a href="#features" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+            <a
+              href="#features"
+              className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#666] transition-colors hover:text-[#1a1a1a]"
+            >
               Features
             </a>
-            <a href="#stats" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
-              Stats
+            <a
+              href="#platform"
+              className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#666] transition-colors hover:text-[#1a1a1a]"
+            >
+              Platform
             </a>
-            <a href="#benefits" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+            <a
+              href="#why-sis"
+              className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#666] transition-colors hover:text-[#1a1a1a]"
+            >
               Why SIS
             </a>
           </div>
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-gray-800 hover:shadow-lg"
-          >
-            <LayoutDashboard className="h-4 w-4" />
-            <span className="hidden sm:inline">Open Dashboard</span>
-            <span className="sm:hidden">Dashboard</span>
-          </Link>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 rounded-full bg-[#1a1a1a] px-5 py-2 text-[13px] font-medium text-white transition-all hover:bg-[#333] active:scale-[0.98]"
+            >
+              Open Dashboard
+              <ArrowUpRight size={14} weight="bold" />
+            </Link>
+          </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* ─── Hero ─────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/4 h-[500px] w-[500px] rounded-full bg-blue-50 blur-3xl" />
-          <div className="absolute top-20 right-1/4 h-[400px] w-[400px] rounded-full bg-violet-50 blur-3xl" />
-          <div className="absolute -bottom-20 left-1/2 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-emerald-50 blur-3xl" />
+        {/* Warm gradient orbs */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-0 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-gradient-to-b from-orange-200/60 via-amber-100/40 to-transparent blur-[100px]" />
+          <div className="absolute right-1/4 top-32 h-[300px] w-[300px] rounded-full bg-orange-100/50 blur-[80px]" />
+          <div className="absolute left-1/4 top-48 h-[250px] w-[250px] rounded-full bg-amber-100/40 blur-[80px]" />
         </div>
 
-        <div className="mx-auto max-w-6xl px-6 pb-20 pt-20 md:pt-32 md:pb-28">
-          <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-[1200px] px-6 pb-24 pt-24 md:pb-32 md:pt-36">
+          <div className="mx-auto max-w-[700px] text-center">
             {/* Badge */}
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-1.5 text-xs font-medium text-gray-600 shadow-sm">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Enterprise-grade school management
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#e67e22]" />
+              School Management Platform
             </div>
 
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-              Student Information{" "}
-              <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-600 bg-clip-text text-transparent">
-                System
-              </span>
+            {/* Headline */}
+            <h1 className="text-[42px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] sm:text-[52px] md:text-[64px]">
+              Student Information
+              <br />
+              System
             </h1>
 
-            <p className="mt-6 text-base leading-relaxed text-gray-500 sm:text-lg md:text-xl">
-              A modern, data-driven dashboard for managing students, courses,
-              attendance, exams, and fees — all in one unified platform.
+            {/* Subtext */}
+            <p className="mx-auto mt-6 max-w-[480px] text-[16px] leading-[1.7] text-[#888] md:text-[18px]">
+              Built for modern schools. Powered by real-time data.
+              <br className="hidden sm:block" />
+              Delivering complete institutional oversight.
             </p>
 
-            <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            {/* CTAs */}
+            <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/dashboard"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-8 py-3.5 text-sm font-semibold text-white shadow-lg transition-all hover:bg-gray-800 hover:shadow-xl hover:-translate-y-0.5 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1a1a1a] px-7 py-3 text-[14px] font-medium text-white shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-all hover:bg-[#333] hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] active:scale-[0.98] sm:w-auto"
               >
-                Go to Dashboard
-                <ArrowRight className="h-4 w-4" />
+                Experience SIS
+                <ArrowRight size={16} weight="bold" />
               </Link>
               <a
                 href="#features"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-8 py-3.5 text-sm font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-white px-7 py-3 text-[14px] font-medium text-[#555] shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all hover:border-black/[0.12] hover:bg-[#f5f5f5] hover:text-[#1a1a1a] active:scale-[0.98] sm:w-auto"
               >
-                Explore Features
+                Learn More
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Strip */}
-      <section id="stats" className="border-y border-gray-100 bg-gray-50/50">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-6 py-12 md:grid-cols-4 md:py-16">
+      {/* ─── Stats ────────────────────────────────────────────────── */}
+      <section id="platform" className="border-y border-black/[0.04] bg-white">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-2 divide-x divide-black/[0.04] px-0 md:grid-cols-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+            <div
+              key={stat.label}
+              className="flex flex-col items-center px-6 py-10 md:py-14"
+            >
+              <stat.icon
+                size={20}
+                weight="duotone"
+                className="mb-3 text-[#999]"
+              />
+              <p className="text-[28px] font-semibold tracking-[-0.02em] text-[#1a1a1a] md:text-[32px]">
                 {stat.value}
               </p>
-              <p className="mt-1 text-sm text-gray-500">{stat.label}</p>
+              <p className="mt-1 text-[12px] font-medium uppercase tracking-[0.06em] text-[#999]">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Features */}
-      <section id="features" className="py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
-              Everything you need to run a school
+      {/* ─── Pillars (3-col) ──────────────────────────────────────── */}
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="grid grid-cols-1 gap-0 divide-y divide-black/[0.04] md:grid-cols-3 md:divide-x md:divide-y-0">
+            {pillars.map((pillar) => (
+              <div
+                key={pillar.title}
+                className="flex flex-col items-center px-8 py-10 text-center md:py-2"
+              >
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
+                  <pillar.icon
+                    size={22}
+                    weight="duotone"
+                    className="text-[#1a1a1a]"
+                  />
+                </div>
+                <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[#1a1a1a]">
+                  {pillar.title}
+                </h3>
+                <p className="mt-2 max-w-[280px] text-[13px] leading-[1.7] text-[#888]">
+                  {pillar.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Features ─────────────────────────────────────────────── */}
+      <section
+        id="features"
+        className="border-t border-black/[0.04] bg-white py-20 md:py-28"
+      >
+        <div className="mx-auto max-w-[1200px] px-6">
+          {/* Section header */}
+          <div className="mx-auto max-w-[500px] text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#999]">
+              Modules
+            </p>
+            <h2 className="mt-3 text-[32px] font-semibold leading-[1.15] tracking-[-0.03em] text-[#1a1a1a] md:text-[40px]">
+              Everything you need to
+              <br />
+              run a school
             </h2>
-            <p className="mt-4 text-base text-gray-500 md:text-lg">
-              Six powerful modules, one seamless experience. From enrollment to fee collection, SIS handles it all.
+            <p className="mt-4 text-[15px] leading-[1.7] text-[#888]">
+              Six powerful modules, one seamless experience.
             </p>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {/* Feature grid */}
+          <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="group relative rounded-2xl border border-gray-100 bg-white p-6 transition-all duration-200 hover:border-gray-200 hover:shadow-lg hover:-translate-y-1"
+                className="group rounded-2xl border border-black/[0.04] bg-[#fafafa] p-7 transition-all duration-200 hover:border-black/[0.08] hover:bg-white hover:shadow-[0_4px_24px_rgba(0,0,0,0.04)]"
               >
-                <div
-                  className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${feature.color}`}
-                >
-                  <feature.icon className={`h-5 w-5 ${feature.iconColor}`} />
+                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-black/[0.06] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-shadow group-hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+                  <feature.icon
+                    size={20}
+                    weight="duotone"
+                    className="text-[#1a1a1a]"
+                  />
                 </div>
-                <h3 className="text-base font-semibold text-gray-900">
+                <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[#1a1a1a]">
                   {feature.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                <p className="mt-2 text-[13px] leading-[1.7] text-[#888]">
                   {feature.description}
                 </p>
               </div>
@@ -229,71 +290,108 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Benefits */}
-      <section id="benefits" className="border-y border-gray-100 bg-gray-50/50 py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+      {/* ─── Why SIS ──────────────────────────────────────────────── */}
+      <section id="why-sis" className="border-t border-black/[0.04] py-20 md:py-28">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="mx-auto max-w-[600px] text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#999]">
+              Why SIS
+            </p>
+            <h2 className="mt-3 text-[32px] font-semibold leading-[1.15] tracking-[-0.03em] text-[#1a1a1a] md:text-[40px]">
               Built for performance
             </h2>
-            <p className="mt-4 text-base text-gray-500 md:text-lg">
-              Modern technology stack designed for speed, reliability, and scalability.
+            <p className="mt-4 text-[15px] leading-[1.7] text-[#888]">
+              Modern technology stack designed for speed, reliability, and
+              scalability. From enrollment to fee collection, SIS handles it
+              all.
             </p>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
-            {benefits.map((benefit) => (
-              <div key={benefit.title} className="text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white border border-gray-100 shadow-sm">
-                  <benefit.icon className="h-6 w-6 text-gray-900" />
-                </div>
-                <h3 className="text-base font-semibold text-gray-900">
-                  {benefit.title}
-                </h3>
-                <p className="mt-2 text-sm text-gray-500">
-                  {benefit.description}
-                </p>
+          <div className="mx-auto mt-14 max-w-[560px] space-y-5">
+            {[
+              "Server-rendered pages with real-time Supabase data",
+              "Mobile responsive with drawer-based navigation",
+              "Per-page SEO with Open Graph and Twitter cards",
+              "Dynamic sitemap and robots.txt generation",
+              "One-click Vercel deployment ready",
+              "Comprehensive loading skeletons for all routes",
+            ].map((item) => (
+              <div
+                key={item}
+                className="flex items-start gap-3.5 rounded-xl border border-black/[0.04] bg-white px-5 py-4"
+              >
+                <CheckCircle
+                  size={18}
+                  weight="fill"
+                  className="mt-0.5 shrink-0 text-[#e67e22]"
+                />
+                <span className="text-[14px] leading-[1.6] text-[#555]">
+                  {item}
+                </span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="relative overflow-hidden rounded-3xl bg-gray-900 px-8 py-16 text-center md:px-16 md:py-20">
-            {/* CTA background glow */}
-            <div className="absolute inset-0 -z-0">
-              <div className="absolute top-0 left-1/4 h-[300px] w-[300px] rounded-full bg-blue-500/10 blur-3xl" />
-              <div className="absolute bottom-0 right-1/4 h-[250px] w-[250px] rounded-full bg-violet-500/10 blur-3xl" />
+      {/* ─── CTA ──────────────────────────────────────────────────── */}
+      <section className="border-t border-black/[0.04] bg-white py-20 md:py-28">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="relative overflow-hidden rounded-[28px] bg-[#1a1a1a] px-8 py-16 text-center md:px-16 md:py-20">
+            {/* Warm glow */}
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute left-1/2 top-0 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500/[0.08] blur-[100px]" />
+              <div className="absolute bottom-0 right-1/4 h-[200px] w-[300px] rounded-full bg-amber-500/[0.06] blur-[80px]" />
             </div>
 
             <div className="relative z-10">
-              <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
-                Ready to modernize your school?
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-base text-gray-400 md:text-lg">
-                Start managing your institution with a powerful, intuitive dashboard that puts data at your fingertips.
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888]">
+                Get Started
               </p>
-              <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+              <h2 className="mt-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[40px]">
+                Ready to modernize
+                <br />
+                your school?
+              </h2>
+              <p className="mx-auto mt-4 max-w-[420px] text-[15px] leading-[1.7] text-[#888]">
+                Start managing your institution with a powerful, intuitive
+                dashboard that puts data at your fingertips.
+              </p>
+
+              <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <Link
                   href="/dashboard"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-8 py-3.5 text-sm font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-100 hover:-translate-y-0.5 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-[14px] font-medium text-[#1a1a1a] shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-all hover:bg-[#f0f0f0] active:scale-[0.98] sm:w-auto"
                 >
                   Open Dashboard
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight size={16} weight="bold" />
                 </Link>
               </div>
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-400">
+
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12px] text-[#666]">
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Free to deploy
+                  <CheckCircle
+                    size={14}
+                    weight="fill"
+                    className="text-[#e67e22]"
+                  />
+                  Free to deploy
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Open source
+                  <CheckCircle
+                    size={14}
+                    weight="fill"
+                    className="text-[#e67e22]"
+                  />
+                  Open source
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Supabase powered
+                  <CheckCircle
+                    size={14}
+                    weight="fill"
+                    className="text-[#e67e22]"
+                  />
+                  Supabase powered
                 </span>
               </div>
             </div>
@@ -301,17 +399,19 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-100 bg-white">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-8 sm:flex-row sm:justify-between">
+      {/* ─── Footer ───────────────────────────────────────────────── */}
+      <footer className="border-t border-black/[0.04]">
+        <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-8 sm:flex-row sm:justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gray-900">
-              <GraduationCap className="h-3 w-3 text-white" />
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#1a1a1a]">
+              <GraduationCap size={12} weight="bold" className="text-white" />
             </div>
-            <span className="text-sm font-semibold">SIS</span>
-            <span className="text-xs text-gray-400">v1.0</span>
+            <span className="text-[13px] font-semibold text-[#1a1a1a]">
+              SIS
+            </span>
+            <span className="text-[11px] text-[#bbb]">v1.0</span>
           </div>
-          <p className="text-xs text-gray-400">
+          <p className="text-[11px] text-[#bbb]">
             © 2026 Student Information System. Built with Next.js & Supabase.
           </p>
         </div>
