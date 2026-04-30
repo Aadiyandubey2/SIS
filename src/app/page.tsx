@@ -218,13 +218,19 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
-              href="/dashboard"
+              href="/login"
+              className="hidden items-center rounded-full border border-black/[0.08] bg-white px-5 py-2 text-[13px] font-medium text-[#555] transition-all hover:bg-[#f5f5f5] hover:text-[#1a1a1a] active:scale-[0.98] sm:inline-flex"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/signup"
               className="inline-flex items-center gap-2 rounded-full bg-[#1a1a1a] px-5 py-2 text-[13px] font-medium text-white transition-all hover:bg-[#333] active:scale-[0.98]"
             >
-              <span className="hidden sm:inline">Open Dashboard</span>
-              <span className="sm:hidden">Dashboard</span>
+              <span className="hidden sm:inline">Sign up</span>
+              <span className="sm:hidden">Sign up</span>
               <ArrowUpRight size={14} weight="bold" />
             </Link>
 
@@ -257,6 +263,13 @@ export default function LandingPage() {
                   {link.label}
                 </a>
               ))}
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-1 text-[14px] font-medium text-[#555] transition-colors hover:text-[#1a1a1a] sm:hidden"
+              >
+                Log in
+              </Link>
             </div>
           </div>
         )}
@@ -309,18 +322,18 @@ export default function LandingPage() {
             {/* CTAs */}
             <div className="animate-fade-up-delay-3 mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
-                href="/dashboard"
+                href="/signup"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1a1a1a] px-7 py-3 text-[14px] font-medium text-white shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-all hover:bg-[#333] hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] active:scale-[0.98] sm:w-auto"
               >
-                Experience SIS
+                Create Account
                 <ArrowRight size={16} weight="bold" />
               </Link>
-              <a
-                href="#features"
+              <Link
+                href="/login"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-white px-7 py-3 text-[14px] font-medium text-[#555] shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all hover:border-black/[0.12] hover:bg-[#f5f5f5] hover:text-[#1a1a1a] active:scale-[0.98] sm:w-auto"
               >
-                Learn More
-              </a>
+                Log in
+              </Link>
             </div>
           </div>
         </div>
@@ -496,10 +509,10 @@ export default function LandingPage() {
 
               <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <Link
-                  href="/dashboard"
+                  href="/signup"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-[14px] font-medium text-[#1a1a1a] shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-all hover:bg-[#f0f0f0] active:scale-[0.98] sm:w-auto"
                 >
-                  Open Dashboard
+                  Create Account
                   <ArrowRight size={16} weight="bold" />
                 </Link>
               </div>

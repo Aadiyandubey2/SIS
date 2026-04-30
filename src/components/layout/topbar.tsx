@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Search, Bell, ChevronDown, Menu, User, Settings, LogOut } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 interface TopbarProps {
   onOpenCommandPalette: () => void;
@@ -21,6 +22,71 @@ interface TopbarProps {
 
 export function Topbar({ onOpenCommandPalette, onToggleSidebar }: TopbarProps) {
   const router = useRouter();
+  const [userName, setUserName] = useState("Admin");
+  const [userEmail, setUserEmail] = useState("Administrator");
+
+  useEffect(() => {
+    let active = true;
+
+    const setUserFromSession = (email?: string, fullName?: unknown) => {
+      const nameFromMetadata =
+        typeof fullName === "string" ? fullName.trim() : "";
+      const nameFromEmail = email?.split("@")[0] ?? "";
+
+      setUserName(nameFromMetadata || nameFromEmail || "Admin");
+      setUserEmail(email || "Administrator");
+    };
+
+    supabase.auth.getUser().then(({ data }) => {
+      if (!active) {
+        return;
+      }
+
+      setUserFromSession(
+        data.user?.email,
+        data.user?.user_metadata?.full_name
+      );
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!active) {
+        return;
+      }
+
+      setUserFromSession(
+        session?.user.email,
+        session?.user.user_metadata?.full_name
+      );
+    });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  async function handleSignOut() {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    toast.success("Signed out successfully");
+    router.push("/login");
+    router.refresh();
+  }
+
+  const initials =
+    userName
+      .split(/\s+/)
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() || "AD";
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-white px-4 md:px-6">
@@ -61,15 +127,15 @@ export function Topbar({ onOpenCommandPalette, onToggleSidebar }: TopbarProps) {
           <DropdownMenuTrigger className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted transition-colors cursor-pointer">
               <Avatar className="h-7 w-7">
                 <AvatarFallback className="text-xs bg-foreground text-background">
-                  AD
+                  {initials}
                 </AvatarFallback>
               </Avatar>
               <div className="hidden md:flex flex-col items-start">
                 <span className="text-sm font-medium leading-none">
-                  Admin
+                  {userName}
                 </span>
                 <span className="text-[11px] text-muted-foreground leading-none mt-0.5">
-                  Administrator
+                  {userEmail}
                 </span>
               </div>
               <ChevronDown className="h-3 w-3 text-muted-foreground hidden md:block" />
@@ -91,8 +157,7 @@ export function Topbar({ onOpenCommandPalette, onToggleSidebar }: TopbarProps) {
             <DropdownMenuItem
               className="text-red-600"
               onSelect={() => {
-                toast.success("Signed out successfully");
-                router.push("/");
+                void handleSignOut();
               }}
             >
               <LogOut className="mr-2 h-3.5 w-3.5" />
