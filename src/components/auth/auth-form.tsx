@@ -4,7 +4,7 @@ import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, MailCheck, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -17,9 +17,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 
 type AuthMode = "login" | "signup";
+type AuthMethod = "otp" | "password";
 
 interface AuthFormProps {
   mode: AuthMode;
@@ -34,15 +36,27 @@ function getSafeRedirect(path: string | undefined) {
   return "/dashboard";
 }
 
+function getRedirectUrl(path: string) {
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+
+  return `${window.location.origin}${path}`;
+}
+
 export function AuthForm({ mode, redirectTo }: AuthFormProps) {
   const router = useRouter();
   const isSignup = mode === "signup";
   const safeRedirectTo = getSafeRedirect(redirectTo);
 
+  const [method, setMethod] = useState<AuthMethod>("otp");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [resendIn, setResendIn] = useState(0);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,11 +75,96 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
     };
   }, [router, safeRedirectTo]);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  useEffect(() => {
+    if (resendIn <= 0) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setResendIn((seconds) => Math.max(seconds - 1, 0));
+    }, 1000);
+
+    return () => window.clearTimeout(timer);
+  }, [resendIn]);
+
+  function resetMessages() {
     setError("");
     setNotice("");
+  }
 
+  function switchMethod(nextMethod: AuthMethod) {
+    setMethod(nextMethod);
+    setOtp("");
+    setOtpSent(false);
+    resetMessages();
+  }
+
+  function getNormalizedEmail() {
+    return email.trim().toLowerCase();
+  }
+
+  async function requestEmailOtp() {
+    const normalizedEmail = getNormalizedEmail();
+
+    if (!normalizedEmail) {
+      setError("Enter your email address first.");
+      return;
+    }
+
+    const { error: otpError } = await supabase.auth.signInWithOtp({
+      email: normalizedEmail,
+      options: {
+        shouldCreateUser: isSignup,
+        data:
+          isSignup && fullName.trim()
+            ? {
+                full_name: fullName.trim(),
+              }
+            : undefined,
+        emailRedirectTo: getRedirectUrl(safeRedirectTo),
+      },
+    });
+
+    if (otpError) {
+      throw otpError;
+    }
+
+    setOtpSent(true);
+    setOtp("");
+    setResendIn(45);
+    const message = `We sent a 6-digit OTP to ${normalizedEmail}.`;
+    setNotice(message);
+    toast.success("OTP sent");
+  }
+
+  async function verifyEmailOtp() {
+    const normalizedEmail = getNormalizedEmail();
+    const token = otp.replace(/\D/g, "");
+
+    if (token.length !== 6) {
+      setError("Enter the 6-digit OTP from your email.");
+      return;
+    }
+
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      email: normalizedEmail,
+      token,
+      type: "email",
+      options: {
+        redirectTo: getRedirectUrl(safeRedirectTo),
+      },
+    });
+
+    if (verifyError) {
+      throw verifyError;
+    }
+
+    toast.success(isSignup ? "Account created" : "Signed in successfully");
+    router.push(safeRedirectTo);
+    router.refresh();
+  }
+
+  async function handlePasswordAuth() {
     if (isSignup && password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -76,62 +175,93 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
       return;
     }
 
-    setLoading(true);
+    if (isSignup) {
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email: getNormalizedEmail(),
+        password,
+        options: {
+          data: fullName.trim()
+            ? {
+                full_name: fullName.trim(),
+              }
+            : undefined,
+          emailRedirectTo: getRedirectUrl(safeRedirectTo),
+        },
+      });
 
-    try {
-      if (isSignup) {
-        const { data, error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: fullName.trim()
-              ? {
-                  full_name: fullName.trim(),
-                }
-              : undefined,
-            emailRedirectTo:
-              typeof window !== "undefined"
-                ? `${window.location.origin}/login`
-                : undefined,
-          },
-        });
+      if (signUpError) {
+        throw signUpError;
+      }
 
-        if (signUpError) {
-          throw signUpError;
-        }
-
-        if (data.session) {
-          toast.success("Account created");
-          router.push(safeRedirectTo);
-          router.refresh();
-          return;
-        }
-
-        const message = "Check your email to confirm your account.";
-        setNotice(message);
-        toast.success(message);
-        setPassword("");
-        setConfirmPassword("");
+      if (data.session) {
+        toast.success("Account created");
+        router.push(safeRedirectTo);
+        router.refresh();
         return;
       }
 
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const message = "Check your email to confirm your account.";
+      setNotice(message);
+      toast.success(message);
+      setPassword("");
+      setConfirmPassword("");
+      return;
+    }
 
-      if (signInError) {
-        throw signInError;
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: getNormalizedEmail(),
+      password,
+    });
+
+    if (signInError) {
+      throw signInError;
+    }
+
+    toast.success("Signed in successfully");
+    router.push(safeRedirectTo);
+    router.refresh();
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    resetMessages();
+    setLoading(true);
+
+    try {
+      if (method === "otp") {
+        if (otpSent) {
+          await verifyEmailOtp();
+          return;
+        }
+
+        await requestEmailOtp();
+        return;
       }
 
-      toast.success("Signed in successfully");
-      router.push(safeRedirectTo);
-      router.refresh();
+      await handlePasswordAuth();
     } catch (authError) {
       const message =
         authError instanceof Error
           ? authError.message
           : "Unable to complete authentication.";
+      setError(message);
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleResendOtp() {
+    resetMessages();
+    setLoading(true);
+
+    try {
+      await requestEmailOtp();
+    } catch (authError) {
+      const message =
+        authError instanceof Error
+          ? authError.message
+          : "Unable to resend OTP.";
       setError(message);
       toast.error(message);
     } finally {
@@ -147,11 +277,30 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         </CardTitle>
         <CardDescription>
           {isSignup
-            ? "Use your school email to create an SIS account."
-            : "Sign in with your SIS Supabase account."}
+            ? "Use email OTP to create your SIS account."
+            : "Sign in with an email OTP or your password."}
         </CardDescription>
       </CardHeader>
       <CardContent className="px-6 pb-6">
+        <div className="mb-4 grid grid-cols-2 rounded-lg bg-muted p-1">
+          {(["otp", "password"] as const).map((item) => (
+            <button
+              className={cn(
+                "h-9 rounded-md text-sm font-medium transition-colors",
+                method === item
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              disabled={loading}
+              key={item}
+              onClick={() => switchMethod(item)}
+              type="button"
+            >
+              {item === "otp" ? "Email OTP" : "Password"}
+            </button>
+          ))}
+        </div>
+
         <form className="space-y-4" onSubmit={handleSubmit}>
           {isSignup && (
             <div className="space-y-2">
@@ -160,7 +309,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
                 id="full-name"
                 autoComplete="name"
                 className="h-10"
-                disabled={loading}
+                disabled={loading || otpSent}
                 onChange={(event) => setFullName(event.target.value)}
                 placeholder="School admin"
                 value={fullName}
@@ -174,7 +323,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               id="email"
               autoComplete="email"
               className="h-10"
-              disabled={loading}
+              disabled={loading || otpSent}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="admin@school.edu"
               required
@@ -183,38 +332,66 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              autoComplete={isSignup ? "new-password" : "current-password"}
-              className="h-10"
-              disabled={loading}
-              minLength={6}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Enter your password"
-              required
-              type="password"
-              value={password}
-            />
-          </div>
-
-          {isSignup && (
+          {method === "otp" && otpSent && (
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm password</Label>
+              <Label htmlFor="otp">Email OTP</Label>
               <Input
-                id="confirm-password"
-                autoComplete="new-password"
-                className="h-10"
+                id="otp"
+                autoComplete="one-time-code"
+                className="h-12 text-center text-lg tracking-[0.35em]"
                 disabled={loading}
-                minLength={6}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                placeholder="Confirm your password"
+                inputMode="numeric"
+                maxLength={6}
+                onChange={(event) =>
+                  setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                pattern="[0-9]*"
+                placeholder="000000"
                 required
-                type="password"
-                value={confirmPassword}
+                type="text"
+                value={otp}
               />
             </div>
+          )}
+
+          {method === "password" && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  autoComplete={isSignup ? "new-password" : "current-password"}
+                  className="h-10"
+                  disabled={loading}
+                  minLength={6}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Enter your password"
+                  required
+                  type="password"
+                  value={password}
+                />
+              </div>
+
+              {isSignup && (
+                <div className="space-y-2">
+                  <Label htmlFor="confirm-password">Confirm password</Label>
+                  <Input
+                    id="confirm-password"
+                    autoComplete="new-password"
+                    className="h-10"
+                    disabled={loading}
+                    minLength={6}
+                    onChange={(event) =>
+                      setConfirmPassword(event.target.value)
+                    }
+                    placeholder="Confirm your password"
+                    required
+                    type="password"
+                    value={confirmPassword}
+                  />
+                </div>
+              )}
+            </>
           )}
 
           {error && (
@@ -232,6 +409,11 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
           <Button className="h-10 w-full" disabled={loading} type="submit">
             {loading ? (
               <Loader2 className="animate-spin" />
+            ) : method === "otp" ? (
+              <>
+                {otpSent ? "Verify OTP" : "Send email OTP"}
+                {otpSent ? <ArrowRight /> : <MailCheck />}
+              </>
             ) : (
               <>
                 {isSignup ? "Sign up" : "Log in"}
@@ -240,6 +422,32 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             )}
           </Button>
         </form>
+
+        {method === "otp" && otpSent && (
+          <div className="mt-4 flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:justify-between">
+            <button
+              className="inline-flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 font-medium text-foreground hover:bg-muted disabled:cursor-not-allowed disabled:text-muted-foreground"
+              disabled={loading || resendIn > 0}
+              onClick={() => void handleResendOtp()}
+              type="button"
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+              {resendIn > 0 ? `Resend in ${resendIn}s` : "Resend OTP"}
+            </button>
+            <button
+              className="rounded-md px-2 py-1.5 font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+              disabled={loading}
+              onClick={() => {
+                setOtpSent(false);
+                setOtp("");
+                resetMessages();
+              }}
+              type="button"
+            >
+              Change email
+            </button>
+          </div>
+        )}
 
         <p className="mt-5 text-center text-sm text-muted-foreground">
           {isSignup ? "Already have an account?" : "Need an account?"}{" "}
